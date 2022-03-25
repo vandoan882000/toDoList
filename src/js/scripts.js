@@ -1,4 +1,11 @@
-function createToDoList({createInputEl , createBtnAdd}) {
+function createToDoList({
+  createInputEl ,
+  createBtnAdd,
+  createCheckBox,
+  createTaskName,
+  createBtnRemove,
+  createBtnEdit
+}) {
   let items = [];
   let id = 1;
   const inputEl = createInputEl();
@@ -9,7 +16,11 @@ function createToDoList({createInputEl , createBtnAdd}) {
     const listEl = event.target.parentNode;
     const itemValue = listEl.querySelector(".list-item__value");
     const indexEl = items.findIndex((value) => value.id == listEl.id);
-    items = [...items.slice(0,indexEl),{...items[indexEl],state: !items[indexEl].state},...items.slice(indexEl+1,items.length)];
+    items = [
+      ...items.slice(0,indexEl),
+      {...items[indexEl],state: !items[indexEl].state},
+      ...items.slice(indexEl+1,items.length)
+    ];
     if(!items[indexEl].state) {
       itemValue.style.textDecoration = "line-through";
     }
@@ -21,7 +32,10 @@ function createToDoList({createInputEl , createBtnAdd}) {
   function handleRemoveClick(event) {
     const listEl = event.target.parentNode;
     const indexEl = items.findIndex((value) => value.id == listEl.id);
-    items = [...items.slice(0,indexEl),...items.slice(indexEl+1,items.length)];
+    items = [
+      ...items.slice(0,indexEl),
+      ...items.slice(indexEl+1,items.length)
+    ];
     console.log(items);
     listEl.remove();
   }
@@ -31,7 +45,11 @@ function createToDoList({createInputEl , createBtnAdd}) {
       const listEl = event.target.parentNode;
       const taskName = listEl.querySelector(".list-item__value");
       const indexEl = items.findIndex((value) => value.id == listEl.id);
-      items = [...items.slice(0,indexEl),{...items[indexEl],name: inputEl.value},...items.slice(indexEl+1,items.length)];
+      items = [
+        ...items.slice(0,indexEl),
+        {...items[indexEl],name: inputEl.value},
+        ...items.slice(indexEl+1,items.length)
+      ];
       taskName.textContent = inputEl.value;
       inputEl.value = "";
       console.log(items);
@@ -57,26 +75,18 @@ function createToDoList({createInputEl , createBtnAdd}) {
       item.id = id;
 
       // create checkbox
-      const checkbox = document.createElement('input');
-      checkbox.type = 'checkbox';
-      checkbox.checked = false;
-      checkbox.classList = 'checkbox-list';
+      const checkbox = createCheckBox();
       checkbox.addEventListener('click', handleCheckItem);
 
-      const itemValue = document.createElement('div');
-      itemValue.textContent = inputEl.value ;
-      itemValue.classList = "list-item__value";
+      // create task name
+      const itemValue = createTaskName(inputEl.value);
 
       // create button remove
-      const btnRemove = document.createElement('button');
-      btnRemove.textContent = 'Remove';
-      btnRemove.classList = 'btn-remove';
+      const btnRemove = createBtnRemove();
       btnRemove.addEventListener('click', handleRemoveClick);
 
       // create button edit
-      const btnEdit = document.createElement('button');
-      btnEdit.textContent = 'Edit';
-      btnEdit.classList = 'btn-edit';
+      const btnEdit = createBtnEdit();
       btnEdit.addEventListener('click', handleEditClick);
 
       body.appendChild(item);
@@ -117,7 +127,9 @@ function createToDoList({createInputEl , createBtnAdd}) {
     handleKeyUp();
     handleButtonAdd();
   }
+
   init();
+
 }
 createToDoList({
   createInputEl : function() {
@@ -131,5 +143,31 @@ createToDoList({
     btnAdd.textContent = "Add";
     btnAdd.classList = "add-list";
     return btnAdd;
+  },
+  createCheckBox : function() {
+    const checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    checkbox.checked = false;
+    checkbox.classList = 'todo-list__checkbox';
+    return checkbox;
+  },
+  createTaskName : function(val) {
+    const itemValue = document.createElement('div');
+    itemValue.textContent = val ;
+    itemValue.classList = "list-item__value";
+    return itemValue;
+  },
+  createBtnRemove : function() {
+    const btnRemove = document.createElement('button');
+    btnRemove.textContent = 'Remove';
+    btnRemove.classList = 'btn-remove';
+    return btnRemove;
+  }
+  ,
+  createBtnEdit : function() {
+    const btnEdit = document.createElement('button');
+    btnEdit.textContent = 'Edit';
+    btnEdit.classList = 'btn-edit';
+    return btnEdit;
   }
 });
