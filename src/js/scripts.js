@@ -16,7 +16,7 @@ function createToDoList({createInputEl , createBtnAdd}) {
     else {
       itemValue.style.textDecoration = "none";
     }
-
+    console.log(items);
   }
   function handleRemoveClick(event) {
     const listEl = event.target.parentNode;
@@ -28,16 +28,17 @@ function createToDoList({createInputEl , createBtnAdd}) {
 
   function handleEditClick(event) {
     const listEl = event.target.parentNode;
-    const inputEl = listEl.querySelector(".list-item__value");
+    const taskName = listEl.querySelector(".list-item__value");
     const indexEl = items.findIndex((value) => value.id == listEl.id);
     items = [...items.slice(0,indexEl),{...items[indexEl],name: inputEl.value},...items.slice(indexEl+1,items.length)];
+    taskName.textContent = inputEl.value;
     console.log(items);
   }
 
   function handleButtonAddClick(event) {
     if(inputEl.value.trim() != '') {
       const item = document.createElement('div');
-      item.classList = "list-item";
+      item.classList = "todo-list__item";
       item.id = id;
 
       const checkbox = document.createElement('input');
@@ -46,9 +47,8 @@ function createToDoList({createInputEl , createBtnAdd}) {
       checkbox.classList = 'checkbox-list';
       checkbox.addEventListener('click', handleCheckItem);
 
-      const itemValue = document.createElement('input');
-      itemValue.type = 'text';
-      itemValue.value = inputEl.value ;
+      const itemValue = document.createElement('div');
+      itemValue.textContent = inputEl.value ;
       itemValue.classList = "list-item__value";
 
       const btnRemove = document.createElement('button');
@@ -84,25 +84,27 @@ function createToDoList({createInputEl , createBtnAdd}) {
     if(event.keyCode == 13) {
       if(inputEl.value.trim() != '') {
         const item = document.createElement('div');
-        item.classList = "list-item";
+        item.classList = "todo-list__item";
         item.id = id;
 
+        // create checkbox
         const checkbox = document.createElement('input');
         checkbox.type = 'checkbox';
         checkbox.checked = false;
         checkbox.classList = 'checkbox-list';
         checkbox.addEventListener('click', handleCheckItem);
 
-        const itemValue = document.createElement('input');
-        itemValue.type = 'text';
-        itemValue.value = event.target.value ;
+        const itemValue = document.createElement('div');
+        itemValue.textContent = inputEl.value ;
         itemValue.classList = "list-item__value";
 
+        // create button remove
         const btnRemove = document.createElement('button');
         btnRemove.textContent = 'Remove';
         btnRemove.classList = 'btn-remove';
         btnRemove.addEventListener('click', handleRemoveClick);
 
+        // create button edit
         const btnEdit = document.createElement('button');
         btnEdit.textContent = 'Edit';
         btnEdit.classList = 'btn-edit';
@@ -140,7 +142,11 @@ function createToDoList({createInputEl , createBtnAdd}) {
     const createElement = document.createElement('div');
     createElement.appendChild(inputEl);
     createElement.appendChild(btnAdd);
+    const createHeader = document.createElement('div');
+    createHeader.classList = 'todo-list__header'
+    createHeader.innerHTML = "<div> Status </div> <div> Name of task </div> <div> Actions </div>" ;
     body.appendChild(createElement);
+    body.appendChild(createHeader);
     handleKeyUp();
     handleButtonAdd();
   }
