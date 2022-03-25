@@ -27,20 +27,36 @@ function createToDoList({createInputEl , createBtnAdd}) {
   }
 
   function handleEditClick(event) {
-    const listEl = event.target.parentNode;
-    const taskName = listEl.querySelector(".list-item__value");
-    const indexEl = items.findIndex((value) => value.id == listEl.id);
-    items = [...items.slice(0,indexEl),{...items[indexEl],name: inputEl.value},...items.slice(indexEl+1,items.length)];
-    taskName.textContent = inputEl.value;
-    console.log(items);
+    if(inputEl.value.trim() !== "") {
+      const listEl = event.target.parentNode;
+      const taskName = listEl.querySelector(".list-item__value");
+      const indexEl = items.findIndex((value) => value.id == listEl.id);
+      items = [...items.slice(0,indexEl),{...items[indexEl],name: inputEl.value},...items.slice(indexEl+1,items.length)];
+      taskName.textContent = inputEl.value;
+      inputEl.value = "";
+      console.log(items);
+    }
+    else {
+      alert("Please enter task to edit");
+    }
+
   }
 
   function handleButtonAddClick(event) {
+    handleAddItem();
+  }
+  function handleKeyUpEnter(event) {
+    if(event.keyCode == 13) {
+      handleAddItem();
+    }
+  }
+  function handleAddItem() {
     if(inputEl.value.trim() != '') {
       const item = document.createElement('div');
       item.classList = "todo-list__item";
       item.id = id;
 
+      // create checkbox
       const checkbox = document.createElement('input');
       checkbox.type = 'checkbox';
       checkbox.checked = false;
@@ -51,11 +67,13 @@ function createToDoList({createInputEl , createBtnAdd}) {
       itemValue.textContent = inputEl.value ;
       itemValue.classList = "list-item__value";
 
+      // create button remove
       const btnRemove = document.createElement('button');
       btnRemove.textContent = 'Remove';
       btnRemove.classList = 'btn-remove';
       btnRemove.addEventListener('click', handleRemoveClick);
 
+      // create button edit
       const btnEdit = document.createElement('button');
       btnEdit.textContent = 'Edit';
       btnEdit.classList = 'btn-edit';
@@ -78,58 +96,7 @@ function createToDoList({createInputEl , createBtnAdd}) {
     else {
       alert("Please enter task");
     }
-
   }
-  function handleKeyUpEnter(event) {
-    if(event.keyCode == 13) {
-      if(inputEl.value.trim() != '') {
-        const item = document.createElement('div');
-        item.classList = "todo-list__item";
-        item.id = id;
-
-        // create checkbox
-        const checkbox = document.createElement('input');
-        checkbox.type = 'checkbox';
-        checkbox.checked = false;
-        checkbox.classList = 'checkbox-list';
-        checkbox.addEventListener('click', handleCheckItem);
-
-        const itemValue = document.createElement('div');
-        itemValue.textContent = inputEl.value ;
-        itemValue.classList = "list-item__value";
-
-        // create button remove
-        const btnRemove = document.createElement('button');
-        btnRemove.textContent = 'Remove';
-        btnRemove.classList = 'btn-remove';
-        btnRemove.addEventListener('click', handleRemoveClick);
-
-        // create button edit
-        const btnEdit = document.createElement('button');
-        btnEdit.textContent = 'Edit';
-        btnEdit.classList = 'btn-edit';
-        btnEdit.addEventListener('click', handleEditClick);
-
-        body.appendChild(item);
-        item.insertAdjacentElement("afterbegin",checkbox);
-        item.appendChild(itemValue);
-        item.insertAdjacentElement("beforeend",btnEdit);
-        item.insertAdjacentElement("beforeend",btnRemove);
-        items.push({
-          id: id,
-          state: true,
-          name: event.target.value,
-        });
-        id = id + 1;
-        console.log(items);
-        inputEl.value = "";
-      }
-      else {
-        alert("Please enter task");
-      }
-    }
-  }
-
   function handleButtonAdd() {
     btnAdd.addEventListener('click', handleButtonAddClick);
   }
