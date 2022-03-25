@@ -1,0 +1,23 @@
+{
+  "name": "gulp",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "wiloke1",
+  "license": "MIT",
+  "scripts": {
+    "build": "cross-env NODE_ENV=production gulp build",
+    "start": "cross-env NODE_ENV=development gulp dev"
+  },
+  "devDependencies": {
+    "browser-sync": "^2.27.7",
+    "cross-env": "^7.0.3",
+    "fs-extra": "^10.0.1",
+    "glob": "^7.2.0",
+    "gulp": "^4.0.2",
+    "gulp-sass": "^5.1.0",
+    "gulp-sass-glob": "^1.1.0",
+    "gulp-sourcemaps": "^3.0.0",
+    "gulp-twig": "^1.2.0",
+    "sass": "^1.49.9"
+  }
+}
