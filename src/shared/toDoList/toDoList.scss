@@ -6,7 +6,6 @@
 }
 .todo-list__header {
   display: flex;
-  justify-content: space-between;
   background-color: #DBDBE0;
   height: 50px;
   align-items: center;
@@ -15,6 +14,10 @@
   border-radius: 5px;
   margin-top: 35px;
   margin-bottom: 10px;
+}
+.todo-list__header div:nth-child(2) {
+  margin-left: 80px;
+  margin-right: 125px;
 }
 .todo-list {
   display: flex;
@@ -44,20 +47,21 @@
   padding: 5px;
   margin: 5px;
   width: 500px;
-  justify-content: space-between;
+  height: 50px;
   align-items: center;
   border-radius: 5px;
+  position: relative;
 }
 .checkbox-list {
   margin-right: 10px;
 }
 .list-item__value {
   text-align: center;
-  border: none;
-  outline: none;
-  width :inherit;
+  margin-left: 100px;
 }
 .btn-edit {
+  position: absolute;
+  right: 100px;
   background-color: rgb(219, 129, 255);
   color: #fff;
   border: 1px solid rgb(219, 129, 255);
@@ -67,6 +71,8 @@
   cursor: pointer;
 }
 .btn-remove {
+  position: absolute;
+  right: 20px;
   background-color: rgb(245, 169, 169);
   color: red;
   border: 1px solid rgb(245, 169, 169);
